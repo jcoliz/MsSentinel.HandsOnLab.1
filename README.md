@@ -66,15 +66,17 @@ az group delete --name mssentinel-lab-1
 
 These will be further documented as work on the lab progresses
 
-* Explore the API endpoint
-* Enable Sentinel Health monitoring
-* Install a solution from Content Hub
-* Connect a connector
-* Check deployment logs
-* Check app logs to verify connection check arrived, and notice when the connector is running
-* Check DCR rule metrics
-* Check connector page for liveness queries
-* Check data in logs
+* Check our deployed resources [screen-resource-group](./docs/images/screen-resource-group.jpeg)
+* Explore the API endpoint [screen-apis](./docs/images/screen-apis.jpeg)
+* Enable Sentinel Health monitoring [screen-enable-health](./docs/images/screen-enable-health.jpeg)
+* Install a solution from Content Hub [screen-content-hub](./docs/images/screen-content-hub.jpeg)
+* Connect a connector [screen-connect-connector](./docs/images/screen-connect-connector.jpeg)
+* Check deployment logs [screen-connector-deployment-complete](./docs/images/screen-connector-deployment-complete.jpeg)
+* Check app logs to verify connection check arrived [screen-app-logs-connected](./docs/images/screen-app-logs-connected.jpeg)
+* Wait for more logs to come in, indicating the connector is running [screen-app-logs-wave2](./docs/images/screen-app-logs-wave2.jpeg)
+* Check DCR rule metrics [screen-dcr-metrics](./docs/images/screen-dcr-metrics.jpeg)
+* Check connector page for liveness queries [screen-connector-connected](./docs/images/screen-connector-connected.jpeg)
+* Check data in logs [screen-logs-custom-tables](./docs/images/screen-logs-custom-tables.jpeg)
 
 ## Tour of included Sentinel components
 
