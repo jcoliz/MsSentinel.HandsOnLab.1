@@ -1,7 +1,7 @@
 # Microsoft Sentinel Hands On Lab #1
 
 When this lab is complete, you will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to
-a synthetic API endpoint. With that in place, you'll explore how a Codeless Connector Platform-based connector is constructed.
+a synthetic API endpoint. With that in place, you'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules.
 
 ## Prerequisites
 
@@ -69,3 +69,43 @@ These will be further documented as work on the lab progresses
 * Enable Sentinel Health monitoring
 * Install a solution from Content Hub
 * Connect a connector
+* Check deployment logs
+* Check app logs to verify connection check arrived, and notice when the connector is running
+* Check DCR rule metrics
+* Check connector page for liveness queries
+* Check data in logs
+
+## Tour of included Sentinel components
+
+### Workbook
+
+### Parser
+
+### Analytics rule
+
+* View workbook
+* View parser in solution
+
+* Edit workbook (First: Save, then jump to "My workbooks" and "view saved workbook", set to "last hour")
+    Edit workbook, then Edit Agents by version, 
+
+Set KQL to following:
+
+```kusto
+SentinelOne
+| where Type == "SentinelOneAgents_CL"
+| summarize count() by AgentVersion
+```
+
+* Edit function in logs, remove "Sentinel_CL"
+
+* Change analytics rule
+* View health table
+
+## Tear down
+
+When you're done, simply tear down the entire resource group:
+
+```dotnetcli
+az group delete --name mssentinel-lab-1
+```
