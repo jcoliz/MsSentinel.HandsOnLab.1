@@ -77,17 +77,15 @@ These will be further documented as work on the lab progresses
 * Check DCR rule metrics [screen-dcr-metrics](./docs/images/screen-dcr-metrics.jpeg)
 * Check connector page for liveness queries [screen-connector-connected](./docs/images/screen-connector-connected.jpeg)
 * Check data in logs [screen-logs-custom-tables](./docs/images/screen-logs-custom-tables.jpeg)
+* View health table
 
 ## Tour of included Sentinel components
 
+Work in progress on all this, more details to follow
+
 ### Workbook
 
-### Parser
-
-### Analytics rule
-
 * View workbook
-* View parser in solution
 
 * Edit workbook (First: Save, then jump to "My workbooks" and "view saved workbook", set to "last hour")
     Edit workbook, then Edit Agents by version, 
@@ -100,10 +98,14 @@ SentinelOne
 | summarize count() by AgentVersion
 ```
 
+### Parser
+
+* View parser in solution
 * Edit function in logs, remove "Sentinel_CL"
 
+### Analytics rule
+
 * Change analytics rule
-* View health table
 
 ## Tear down
 
