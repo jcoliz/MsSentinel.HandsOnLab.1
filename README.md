@@ -1,6 +1,6 @@
 # Microsoft Sentinel Hands On Lab #1
 
-When this lab is complete, participants will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to a live API endpoint. With that in place, they'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules.
+When this lab is complete, participants will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to a live API endpoint. With that in place, they'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules. Finally, we'll make a few changes to those components using the Sentinel UI.
 
 ## Prerequisites
 
@@ -45,7 +45,7 @@ In this lab, you will create a resource group and deploy the following resources
 * Sentinel-enabled Log Analytics Workspace
 * Azure Container App running a synthetic API endpoint
 
-To deploy these, run the [Deploy-Services.ps1](./.azure/deploy/Deploy-Services.ps1) script. Supply a resource group name and
+To deploy these, run the [Deploy-Services.ps1](./Deploy-Services.ps1) script. Supply a resource group name and
 Azure datacenter location according to your preference.
 
 ```dotnetcli
