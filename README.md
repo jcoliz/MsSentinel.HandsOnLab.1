@@ -1,11 +1,10 @@
 # Microsoft Sentinel Hands On Lab #1
 
-When this lab is complete, you will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to
-a synthetic API endpoint. With that in place, you'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules.
+When this lab is complete, participants will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to a live API endpoint. With that in place, they'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules.
 
 ## Prerequisites
 
-In order to follow the instructions shown here, and run this sample, you will first need:
+To participate in this lab, you will first need:
 
 * An Azure Account. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
 * [Azure CLI tool with Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli)
@@ -14,6 +13,8 @@ In order to follow the instructions shown here, and run this sample, you will fi
 * A code editor, e.g. [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Setup
+
+Please complete these steps before beginning the lab.
 
 ### 1. Clone this repo
 
@@ -25,7 +26,7 @@ git clone --recurse-submodules https://github.com/jcoliz/MsSentinel.HandsOnLab.1
 
 ### 2. Log into Azure
 
-In a terminal window, ensure you are logged into azure
+In a terminal window, ensure you are logged into Azure
 
 ```dotnetcli
 az login
