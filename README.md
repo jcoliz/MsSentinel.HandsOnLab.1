@@ -52,7 +52,7 @@ Azure datacenter location according to your preference.
 .\Deploy-Services.ps1 -ResourceGroup mssentinel-lab-1 -Location westus
 ```
 
-When this script completes, it will pass along some helpful information:
+When this script completes, it will pass along some helpful information. Be sure to record the displayed endpoints URL.
 
 ```dotnetcli
 Deployed sentinel workspace sentinel-redacted
@@ -62,24 +62,179 @@ When finished, run:
 az group delete --name mssentinel-lab-1
 ```
 
-## Next Steps
+## Review resoruces
 
-These will be further documented as work on the lab progresses
+### Check deployed resources
 
-* Check our deployed resources [screen-resource-group](./docs/images/screen-resource-group.jpeg)
-* Explore the API endpoint [screen-apis](./docs/images/screen-apis.jpeg)
-* Enable Sentinel Health monitoring [screen-enable-health](./docs/images/screen-enable-health.jpeg)
-* Install a solution from Content Hub [screen-content-hub](./docs/images/screen-content-hub.jpeg)
-* Connect a connector [screen-connect-connector](./docs/images/screen-connect-connector.jpeg)
-* Check deployment logs [screen-connector-deployment-complete](./docs/images/screen-connector-deployment-complete.jpeg)
-* Check app logs to verify connection check arrived [screen-app-logs-connected](./docs/images/screen-app-logs-connected.jpeg)
-* Wait for more logs to come in, indicating the connector is running [screen-app-logs-wave2](./docs/images/screen-app-logs-wave2.jpeg)
-* Check DCR rule metrics [screen-dcr-metrics](./docs/images/screen-dcr-metrics.jpeg)
-* Check connector page for liveness queries [screen-connector-connected](./docs/images/screen-connector-connected.jpeg)
-* Check data in logs [screen-logs-custom-tables](./docs/images/screen-logs-custom-tables.jpeg)
-* View health table
+![screen-resource-group](./docs/images/screen-resource-group.jpeg)
 
-## Tour of included Sentinel components
+Perform the following steps to review what you have just deployed.
+
+1. Visit the Azure Portal at [portal.azure.com](https://portal.azure.com)
+1. Log in with the same credentials used when logging into the Azure CLI tool, above
+1. Navigate to "Resource groups"
+1. Click on the resource group which you supplied to the `Deploy-Services` script, above
+
+You will see the following resources deployed:
+
+* Container App `c-web-` which runs a synthetic API endpoint service
+* Container Apps Environment `cenv-` which hosts the Container App
+* Sentinel Solution `SecurityInsights(sentinel-` the Sentinel analytics layer on top of log analytics
+* Log Analytics Workspace `sentinel-` the underlying log analytics workpace containing our Sentinel data
+
+### Enable Sentinel Health monitoring
+
+![screen-enable-health](./docs/images/screen-enable-health.jpeg)
+
+Always ensure that health monitoring is enabled on any Sentinel workspace before doing _anything_ in it.
+
+1. Begin in the Azure Portal
+1. Choose the "Microsoft Sentinel" service.
+1. Click on the name of the resource we deployed above. Use the resource group for reference. 
+1. Click Settings > Settings
+1. Expand the Auditing and Health Monitoring section
+1. Click the "Enable" button
+
+### Explore the API endpoint
+
+![screen-apis](./docs/images/screen-apis.jpeg)
+
+Let's visit the swagger UI page for our synthetic endpoints. Note the output of the `Deploy-Services` script above, which gave you a URL ending in `.azurecontainerapps.io/`. Paste that URL into your browser address bar, followed by `swagger`. For example: `https://c-web-redacted.westus.azurecontainerapps.io/swagger`.
+
+From here, take some time to familiazize yourself with the "SyntheticS1" group of endpoints. These endpoints will be used when we deploy the CCP connector.
+
+## Install and connect a connector
+
+### Install a solution from Content Hub 
+
+![screen-content-hub](./docs/images/screen-content-hub.jpeg)
+
+For our use today, we'll install the "Sentinel One" solution from the Sentinel Content Hub.
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Content Hub" on the left navigation pane, located under "Content management"
+1. In the Search box above the solutions list, type "SentinelOne"
+1. Select the "SentinelOne" solution
+1. In the right details pane, click "Install"
+
+### Connect a data connector
+
+![screen-connect-connector](./docs/images/screen-connect-connector.jpeg)
+
+Enable the CCP data connector contained within this solution.
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Data connectors" on the left navigation pane, located under "Configuration"
+1. Select the "SentinelOne" data connector. Not the one using Azure Functions!
+1. In the right details pane, click "Open connector page"
+1. In the text box labeled "SentinelOne Management URL", enter the URL output by the `Deploy-Services` script. Note that in this case, we do not want `swagger` attached. Only the part ending in ending in `.azurecontainerapps.io/`
+1. Enter any value in API token, or leave it blank
+1. Press "Connect"
+
+### Check deployment logs
+
+![screen-connector-deployment-complete](./docs/images/screen-connector-deployment-complete.jpeg)
+
+Let's make sure our connector deployment was successful.
+
+1. Begin in the Azure Portal.
+1. Navigate to "Resource groups"
+1. Click on the resource group which you supplied to the `Deploy-Services` script, above
+1. Click on "Deployments" under the "Settings" group on the left navigation pane
+1. Look for a deployment named "DataConnector-SentinelOneCCPConnections"
+1. Look for a status of "Suceeded"
+1. Click into the deployment, and expand Deployment details
+1. You'll see seven unique dataConnector resources deployed. Each is an independent poller connecting to one of our synthetic endpoints
+
+### Check app logs for connection check
+
+![screen-app-logs-connected](./docs/images/screen-app-logs-connected.jpeg)
+
+To verify that the connection check has completed for each of these pollers, we can check the logs for our synthetic endpoints app.
+
+1. Begin in the Azure Portal.
+1. Navigate to "Resource groups"
+1. Click on the resource group which you supplied to the `Deploy-Services` script, above
+1. Click on the `c-web-` resource
+1. Click on "Log stream" under "Monitoring" on the left navigation pane
+1. Click "Real-time" under "Display"
+1. Click "Application" under "Cagegory"
+
+You'll see a stream of logs. Each one of these pairs of lines is a unique call to the synthetic endpoints. You should see 8 logs of event type `[1001]`. There is one call for each endpoint, plus an extra one because one endpoint required two calls to get through all the pages.
+
+```log
+2025-04-30T21:03:02.762038777Z info: MsSentinel.MockApi.WebApi.Controllers.ServiceControllerImplementation[1001]
+2025-04-30T21:03:02.762073121Z       GetAgentsAsync: OK C=- U=04/30/2025 20:55:02 +00:00-04/30/2025 21:00:02 +00:00 #=+200 #Results: 6
+```
+
+### Now, we wait
+
+It can take up to 30 minutes before the pollers all start functioning. This is a great time to take a break and go catch some fresh air.
+
+## Confirm data is flowing
+
+### Wait for more app logs
+
+![screen-app-logs-wave2](./docs/images/screen-app-logs-wave2.jpeg)
+
+You'll know the connector is running when you see more connections come in on the application log stream. Wait here on this page until you see these calls coming in.
+
+### Check DCR rule metrics
+
+![screen-dcr-metrics](./docs/images/screen-dcr-metrics.jpeg)
+
+Our first step in verifying data is to ensure the Data Collection Rule (DCR) received the logs.
+
+1. Begin in the Azure Portal.
+1. Navigate to "Resource groups"
+1. Click on the resource group which you supplied to the `Deploy-Services` script, above
+1. Click on the Data Collection Rule resource
+1. Click "Metrics" under "Monitoring" on the left navigation pane
+1. On the chart controls, Select the "Metric" drop-down
+1. Choose "Logs Ingestions Requests per Min"
+1. On the timespan picker (upper-right), select "Last 30 minutes"
+
+From here, you can see log ingestion requests coming into the DCR.
+
+### Check liveness queries
+
+![screen-connector-connected](./docs/images/screen-connector-connected.jpeg)
+
+The data connector page displays helpful liveness quereies to validate that data is flowing.
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Data connectors" on the left navigation pane, located under "Configuration"
+1. Select the "SentinelOne" data connector. Not the one using Azure Functions!
+1. In the right details pane, click "Open connector page"
+1. Notice that the status is "Connected" and shows green.
+1. Notice the "Last Log Received" was recently
+1. Notice the "Data received" graphs
+1. Notice the "Data types" are all green
+
+### Check data in logs
+
+![screen-logs-custom-tables](./docs/images/screen-logs-custom-tables.jpeg)
+
+1. Begin in the connector details page
+1. Click on one of the green data types, e.g. "SentinelOneActivities_CL"
+1. Remove the bottom two clauses (summarize and 2nd where clause)
+1. Run the query
+1. Notice lots of synthetic activity details
+
+### View health table
+
+TODO: Screen shot of health table
+
+After the connector has been up for at least an hour, you'll start to see data in the Sentinel Health table. You remembered to enable Sentinel Health monitoring in the initial steps, right?
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Logs" on the left navigation pane
+1. Click "+" on query tabs to create a new query
+1. Type "SentinelHealth" into the query box
+1. Click "Run"
+1. Explore the Sentinel Health records
+
+## Edit Sentinel components
 
 Work in progress on all this, more details to follow
 
