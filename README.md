@@ -7,35 +7,16 @@ In this lab, participants will set up a Microsoft Sentinel workspace, and connec
 To participate in this lab, you will first need:
 
 * An Azure Account. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
-* [Azure CLI tool with Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli)
+* [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 * A git client, e.g. [Git for Windows](https://gitforwindows.org/)
-* Execution policy configured to run PowerShell scripts, see [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)
 * A code editor, e.g. [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Setup
 
-Please complete these steps before beginning the lab.
-
-### 1. Clone this repo
-
-Clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.com/jcoliz/AzDeploy.Bicep) project handy with the necessary module templates.
+Before beginning the lab, please clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.com/jcoliz/AzDeploy.Bicep) project handy with the necessary module templates.
 
 ```powershell
 git clone --recurse-submodules https://github.com/jcoliz/MsSentinel.HandsOnLab.1.git
-```
-
-### 2. Log into Azure
-
-In a terminal window, ensure you are logged into Azure
-
-```dotnetcli
-az login
-```
-
-Then verify that the subscription you're logged into is where you want to deploy. Make adjustments as needed.
-
-```dotnetcli
-az account show
 ```
 
 ## Deploy resources
@@ -45,21 +26,25 @@ In this lab, you will create a resource group and deploy the following resources
 * Sentinel-enabled Log Analytics Workspace
 * Azure Container App serving a synthetic API endpoint
 
-To deploy these, run the [Deploy-Services.ps1](./Deploy-Services.ps1) script. Supply a resource group name and
-Azure datacenter location according to your preference.
+To deploy these, you should be able to simply run `azd up` from a terminal window in the folder where you cloned the repo. However, there is an issue in the azd tool where deployments are not always recorded properly. To work around this, we first turn on the deployment stacks feature:
 
 ```dotnetcli
-.\Deploy-Services.ps1 -ResourceGroup mssentinel-lab-1 -Location westus
+azd config set alpha.deployment.stacks on
+azd up
 ```
 
-When this script completes, it will pass along some helpful information. Be sure to record the displayed endpoints URL.
+When requested, give the environment a name. These instructions are written assuming you chose `mssentinel-lab-1` as your environment. Please modify them as needed if you have chosen another.
+
+After deploying, you will need the URL where Azure deployed your API endpoints.
 
 ```dotnetcli
-Deployed sentinel workspace sentinel-redacted
-Synthetic endpoints available at https://c-web-redacted.westus.azurecontainerapps.io/
+cat .azure/mssentinel-lab-1/.env
+```
 
-When finished, run:
-az group delete --name mssentinel-lab-1
+And look for the following line. Keep it handy for later!
+
+```env
+appFqdn="c-web-something.westus.azurecontainerapps.io"
 ```
 
 ## Review resoruces
@@ -71,9 +56,9 @@ az group delete --name mssentinel-lab-1
 Perform the following steps to review what you have just deployed.
 
 1. Visit the Azure Portal at [portal.azure.com](https://portal.azure.com)
-1. Log in with the same credentials used when logging into the Azure CLI tool, above
+1. Log in with the same credentials used when running `azd up`
 1. Navigate to "Resource groups"
-1. Click on the resource group which you supplied to the `Deploy-Services` script, above
+1. Click on `rg-mssentinel-lab-1`
 
 You will see the following resources deployed:
 
@@ -99,13 +84,13 @@ Always ensure that health monitoring is enabled on any Sentinel workspace before
 
 ![screen-apis](./docs/images/screen-apis.jpeg)
 
-Let's visit the swagger UI page for our synthetic endpoints. Note the output of the `Deploy-Services` script above, which gave you a URL ending in `.azurecontainerapps.io/`. Paste that URL into your browser address bar, followed by `swagger`. For example: `https://c-web-redacted.westus.azurecontainerapps.io/swagger`.
+Let's visit the swagger UI page for our synthetic endpoints. Remember the URL you found after deploying? It ends in `.azurecontainerapps.io/`. Paste that URL into your browser address bar, followed by `swagger`. For example: `https://c-web-something.westus.azurecontainerapps.io/swagger`.
 
 From here, take some time to familiazize yourself with the "SyntheticS1" group of endpoints. These endpoints will be used when we deploy the CCP connector.
 
 ## Install and connect a connector
 
-### Install a solution from Content Hub 
+### Install a solution from Content Hub
 
 ![screen-content-hub](./docs/images/screen-content-hub.jpeg)
 
@@ -333,10 +318,10 @@ After this rule has been running for a while, you can come back to the "Incident
 
 ## Tear down
 
-When you're done, simply tear down the entire resource group. Supply the name you chose in the initial deployment step to delete the correct resoruce group.
+When you're done, simply tear down the entire resource group.
 
 ```dotnetcli
-az group delete --name mssentinel-lab-1
+azd down
 ```
 
 Alternately, you could keep the resource group up for future use, but just disconnect the connector. Doing so will stop data from flowing in, and driving up your data consumption charges.
