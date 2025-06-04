@@ -223,7 +223,7 @@ The data connector page displays helpful liveness quereies to validate that data
 
 ### View health table
 
-TODO: Screen shot of health table
+![screen-logs.health](./docs/images/screen-logs-health.png)
 
 After the connector has been up for at least an hour, you'll start to see data in the Sentinel Health table. You remembered to enable Sentinel Health monitoring in the initial steps, right?
 
@@ -236,16 +236,15 @@ After the connector has been up for at least an hour, you'll start to see data i
 
 ## Edit Sentinel components
 
-Work in progress on all this, more details to follow
+Now that we have data flowing into the SentinelOne solution, we can make some edits to the solution to clean it up for better presentation. This will give us a bit of experience making changes to solution components.
 
 ### Workbook
 
-* View workbook
+![screen-workbook](./docs/images/screen-workbook.jpeg)
 
-* Edit workbook (First: Save, then jump to "My workbooks" and "view saved workbook", set to "last hour")
-    Edit workbook, then Edit Agents by version, 
+When deployed, the workbook template doesn't show the "Agents by Version" graph correctly. We will update the query used for this pane, and save the modified workbook so it's ready for us to use again later. The screen shot above shows the final result.
 
-Set KQL to following:
+The KQL we will need to display this pane correctly is:
 
 ```kusto
 SentinelOne
@@ -253,19 +252,91 @@ SentinelOne
 | summarize count() by AgentVersion
 ```
 
+Follow these instructions to make the needed correction:
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Workbooks" on the left navigation pane
+1. Click "Templates" in the tab picker just above the search box
+1. Click "SentinelOneWorkbook" in the results list
+1. Click "Save" in the details pane on the right, and choose a location where to save it. Now we have an editable copy.
+1. Click "My workbooks" in the tab picker just above the search box. Now you will see the SentinelOneWorkbook there.
+1. Click "SentinelOneWorkbook" in the results list
+1. Click "View saved workbook" in the details pane on the right
+1. Click "Edit" in the top tool bar, just under the page title
+1. Find the "Agents by version" pane. Click the "Edit" button in the bottom right of that pane
+1. Replace the query with the text shown above. Click "Run Query" to see the results
+1. Click the "Done Editing" button *at the bottom of the pane* to finish editing the pane
+1. Click the "Done Editing" button in the top tool bar. Make sure you've *first* clicked "Done Editing" on the pane itself!!
+
 ### Parser
 
-* View parser in solution
-* Edit function in logs, remove "Sentinel_CL"
+![screen-edit-parser](./docs/images/screen-edit-parser.png)
+
+When deployed, the `SentinelOne` parser has an erroneous clause in its query. This will show warnings in the dashboard and in other areas where the parser is used.
+
+We will need to make the following change in the query for the `SentinelOne` parser function.
+
+```diff
+-        let SentinelOneV1Empty_Union= union isfuzzy=true SentinelOne_CL,SentinelOneV1_Empty
++        let SentinelOneV1Empty_Union= union isfuzzy=true SentinelOneV1_Empty
+```
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Logs" on the left navigation pane
+1. Click the "Functions" icon button in the stack to the left of the "Run" button
+1. Expand "Workspace Functions"
+1. Scroll down until "SentinelOne" comes into view
+1. Hover over "SentinelOne" until the actions pane comes up
+1. Click "Load code into editor" on the actions pane
+1. In the editor, press Ctrl+F to bring up a find windoe
+1. Type in "SentinelOne_CL" to find the line where change is needed
+1. Update this line as shown in the diff above
+1. Click "Run" to ensure the query runs properly
+1. Click "Save" in the tool bar to the right of the tabs list. Then click "Save" again to overwrite the existing query.
+
+The workbook will now show up without warnings about invalid function syntax.
 
 ### Analytics rule
 
-* Change analytics rule
+![screen-analytics-list](./docs/images/screen-analytics-list.jpeg)
+
+When deployed, the "Sentinel One - Agent uninstalled from multiple hosts" has an error in its logic which will prevent it from ever being fired.
+
+We will need to make the following change in the query for this rule, which we will do whilst also activating the rule.
+
+```diff
+SentinelOne
+| where ActivityType == 51
+| summarize count() by DataComputerName, bin(TimeGenerated, 30m)
+-| where count_ > 1
+```
+
+The existing rule will fire when the agent has been installed multiple times *on the same machine*, which is not what we're looking for. Once it's uninstalled from one machine, the chances of it being unsinstalled from the same machine is very low. 
+
+1. Begin in the overview page for our Sentinel workspace.
+1. Click "Analytics" on the left navigation pane
+1. Click "Rule templates" in the tab picker just above the search box
+1. Enter "uninstalled" into the search box
+1. Click the rule "Sentinel One - Agent uninstalled from multiple hosts"
+1. Click the "Create rule" button in the details pane on the right
+1. Click "Set rule logic" in the tab picker just below the page title
+1. Click "Test with current data" in the Results Simulation pane to the left. Notice that no results are found.
+1. Edit the "Rule query" box by making the change described above
+1. Click "Test with current data" in the Results Simulation pane to the left. Notice that many results are found.
+1. Scroll down to the "Alert threshold" section
+1. Enter "1" in the box next to "Is greater than". This retains the spirit of the rule that it only fires when multiple machines are found to have uninstalled the agent.
+1. Click "Review + create" in the tab picker just below the page title
+1. Wait patiently for validation to complete
+1. Click "Save"
+
+After this rule has been running for a while, you can come back to the "Incidents" page, to find that many incidents have been created from your new rule.
 
 ## Tear down
 
-When you're done, simply tear down the entire resource group:
+When you're done, simply tear down the entire resource group. Supply the name you chose in the initial deployment step to delete the correct resoruce group.
 
 ```dotnetcli
 az group delete --name mssentinel-lab-1
 ```
+
+Alternately, you could keep the resource group up for future use, but just disconnect the connector. Doing so will stop data from flowing in, and driving up your data consumption charges.
