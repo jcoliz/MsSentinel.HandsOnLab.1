@@ -1,6 +1,6 @@
 # Microsoft Sentinel Hands On Lab #1
 
-When this lab is complete, participants will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to a live API endpoint. With that in place, they'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules. Finally, we'll make a few changes to those components using the Sentinel UI.
+In this lab, participants will set up a Microsoft Sentinel workspace, and connect a Codeless Connector Platform-based connector to a live API endpoint. With that in place, they'll explore common components deployed in a Microsoft Sentinel solution, including: Workbooks, parsers, and analytics rules. Finally, we'll make a few changes to those components using the Sentinel UI.
 
 ## Prerequisites
 
@@ -43,7 +43,7 @@ az account show
 In this lab, you will create a resource group and deploy the following resources to your Azure subscription:
 
 * Sentinel-enabled Log Analytics Workspace
-* Azure Container App running a synthetic API endpoint
+* Azure Container App serving a synthetic API endpoint
 
 To deploy these, run the [Deploy-Services.ps1](./Deploy-Services.ps1) script. Supply a resource group name and
 Azure datacenter location according to your preference.
@@ -207,7 +207,7 @@ The data connector page displays helpful liveness quereies to validate that data
 1. Select the "SentinelOne" data connector. Not the one using Azure Functions!
 1. In the right details pane, click "Open connector page"
 1. Notice that the status is "Connected" and shows green.
-1. Notice the "Last Log Received" was recently
+1. Notice the "Last Log Received" was recently updated. You may need to refresh the page.
 1. Notice the "Data received" graphs
 1. Notice the "Data types" are all green
 
