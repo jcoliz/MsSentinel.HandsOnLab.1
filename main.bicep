@@ -32,7 +32,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
 // Deploy resources
 
 module resources 'resources.bicep' = {
-  name: 'workspace'
+  name: 'resources'
   scope: rg
   params: {
     suffix: suffix
