@@ -20,12 +20,11 @@ Please complete these steps before beginning the lab.
 Clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.com/jcoliz/AzDeploy.Bicep) project handy with the necessary module templates.
 
 1. Launch VS Code
-1. Close any existing folders if open (File | Close Folder)
 1. Hit [F1], and then type "git clone"
 1. Pick the option "Git clone (Recursive)". Be sure to get the "recursive" choice.
 1. Enter "https://github.com/jcoliz/MsSentinel.HandsOnLab.1"
 1. Choose a location to clone into, e.g. "C:\Source"
-1. When prompted to "Open cloned repository?", select "OK"
+1. When prompted to "Open cloned repository?", select "OK" or "Open"
 
 ### 2. Log into Azure
 
@@ -47,7 +46,6 @@ In this lab, you will create a resource group and deploy the following resources
 
 * Sentinel-enabled Log Analytics Workspace
 * Azure Container App serving a synthetic API endpoint
-* Resource Group to contain these resources
 
 To deploy these, run the [Deploy-Services.ps1](./Deploy-Services.ps1) script. Supply a memorable environment name and Azure datacenter location according to your preference. These instructions
 imagine you've used `mssentinel-lab-1` for this. If you've chosen something different, be sure to
@@ -60,8 +58,8 @@ use the correct moniker where needed.
 When this script completes, it will pass along some helpful information. Be sure to record the displayed endpoints URL.
 
 ```dotnetcli
-Deployed sentinel workspace sentinel-redacted
-Synthetic endpoints available at https://c-web-redacted.westus.azurecontainerapps.io/
+Deployed sentinel workspace sentinel-something
+Synthetic endpoints available at https://c-web-something.azurecontainerapps.io/
 
 When finished, run:
 az group delete --name rg-mssentinel-lab-1
