@@ -8,9 +8,8 @@ To participate in this lab, you will first need:
 
 * An Azure Account. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
 * [Azure CLI tool with Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli)
-* A git client, e.g. [Git for Windows](https://gitforwindows.org/)
 * Execution policy configured to run PowerShell scripts, see [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)
-* A code editor, e.g. [Visual Studio Code](https://code.visualstudio.com/)
+* [Visual Studio Code](https://code.visualstudio.com/Download). Recommend the System Installer over User Installer for Windows users.
 
 ## Setup
 
@@ -20,9 +19,13 @@ Please complete these steps before beginning the lab.
 
 Clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.com/jcoliz/AzDeploy.Bicep) project handy with the necessary module templates.
 
-```powershell
-git clone --recurse-submodules https://github.com/jcoliz/MsSentinel.HandsOnLab.1.git
-```
+1. Launch VS Code
+1. Close any existing folders if open (File | Close Folder)
+1. Hit [F1], and then type "git clone"
+1. Pick the option "Git clone (Recursive)". Be sure to get the "recursive" choice.
+1. Enter "https://github.com/jcoliz/MsSentinel.HandsOnLab.1"
+1. Choose a location to clone into, e.g. "C:\Source"
+1. When prompted to "Open cloned repository?", select "OK"
 
 ### 2. Log into Azure
 
