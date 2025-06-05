@@ -28,9 +28,10 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: 'rg-${environmentName}'
   location: location
 }
-// Deploy Microsoft Sentinel Workspace
 
-module workspace 'AzDeploy.Bicep/SecurityInsights/sentinel-complete.bicep' = {
+// Deploy resources
+
+module resources 'resources.bicep' = {
   name: 'workspace'
   scope: rg
   params: {
@@ -39,19 +40,6 @@ module workspace 'AzDeploy.Bicep/SecurityInsights/sentinel-complete.bicep' = {
   }
 }
 
-// Deploy container app
-
-module apiapp 'AzDeploy.Bicep/App/containerAppCompleteWeb.bicep' = {
-  name: 'apiapp'
-  scope: rg
-  params: {
-    suffix: suffix
-    location: location
-    webImageName: 'jcoliz/mssentinel-synthetic:latest'
-    ingressPort: 8080
-  }
-}
-
-output sentinelWorkspaceName string = workspace.outputs.logAnalyticsName
-output appFqdn string = apiapp.outputs.fqdn
+output sentinelWorkspaceName string = resources.outputs.sentinelWorkspaceName
+output appFqdn string = resources.outputs.appFqdn
 output rgName string = rg.name
