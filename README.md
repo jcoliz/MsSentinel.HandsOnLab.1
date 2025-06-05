@@ -44,12 +44,14 @@ In this lab, you will create a resource group and deploy the following resources
 
 * Sentinel-enabled Log Analytics Workspace
 * Azure Container App serving a synthetic API endpoint
+* Resource Group to contain these resources
 
-To deploy these, run the [Deploy-Services.ps1](./Deploy-Services.ps1) script. Supply a resource group name and
-Azure datacenter location according to your preference.
+To deploy these, run the [Deploy-Services.ps1](./Deploy-Services.ps1) script. Supply a memorable environment name and Azure datacenter location according to your preference. These instructions
+imagine you've used `mssentinel-lab-1` for this. If you've chosen something different, be sure to
+use the correct moniker where needed.
 
 ```dotnetcli
-.\Deploy-Services.ps1 -ResourceGroup mssentinel-lab-1 -Location westus
+.\Deploy-Services.ps1 -EnvironmentName mssentinel-lab-1 -Location westus
 ```
 
 When this script completes, it will pass along some helpful information. Be sure to record the displayed endpoints URL.
@@ -59,7 +61,7 @@ Deployed sentinel workspace sentinel-redacted
 Synthetic endpoints available at https://c-web-redacted.westus.azurecontainerapps.io/
 
 When finished, run:
-az group delete --name mssentinel-lab-1
+az group delete --name rg-mssentinel-lab-1
 ```
 
 ## Review resoruces
@@ -73,7 +75,7 @@ Perform the following steps to review what you have just deployed.
 1. Visit the Azure Portal at [portal.azure.com](https://portal.azure.com)
 1. Log in with the same credentials used when logging into the Azure CLI tool, above
 1. Navigate to "Resource groups"
-1. Click on the resource group which you supplied to the `Deploy-Services` script, above
+1. Click on the `rg-mssentinel-lab-1` resource group
 
 You will see the following resources deployed:
 
@@ -90,7 +92,7 @@ Always ensure that health monitoring is enabled on any Sentinel workspace before
 
 1. Begin in the Azure Portal
 1. Choose the "Microsoft Sentinel" service.
-1. Click on the name of the resource we deployed above. Use the resource group for reference. 
+1. Click on the name of the resource we deployed above. See the deployment script output for its name.
 1. Click Settings > Settings
 1. Expand the Auditing and Health Monitoring section
 1. Click the "Enable" button
@@ -105,7 +107,7 @@ From here, take some time to familiazize yourself with the "SyntheticS1" group o
 
 ## Install and connect a connector
 
-### Install a solution from Content Hub 
+### Install a solution from Content Hub
 
 ![screen-content-hub](./docs/images/screen-content-hub.jpeg)
 
@@ -333,10 +335,11 @@ After this rule has been running for a while, you can come back to the "Incident
 
 ## Tear down
 
-When you're done, simply tear down the entire resource group. Supply the name you chose in the initial deployment step to delete the correct resoruce group.
+When you're done, simply tear down the entire resource group. The resource name for deletion was
+given as an output when you initially ran the [Deploy-Services](./Deploy-Services.ps1) script.
 
 ```dotnetcli
-az group delete --name mssentinel-lab-1
+az group delete --name rg-mssentinel-lab-1
 ```
 
 Alternately, you could keep the resource group up for future use, but just disconnect the connector. Doing so will stop data from flowing in, and driving up your data consumption charges.
