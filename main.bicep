@@ -16,7 +16,7 @@ param environmentName string
 
 @minLength(1)
 @description('Primary location for all resources')
-param location string = deployment().location
+param location string 
 
 @description('Unique suffix for all resources in this deployment')
 @minLength(5)

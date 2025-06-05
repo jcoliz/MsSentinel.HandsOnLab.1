@@ -8,7 +8,7 @@ param(
 )
 
 Write-Output "Deploying environment $EnvironmentName"
-$result = az deployment sub create --name "Deploy-$(Get-Random)" --template-file ./main.bicep --location $Location --parameters environmentName="$EnvironmentName" | ConvertFrom-Json
+$result = az deployment sub create --name "Deploy-$(Get-Random)" --template-file ./main.bicep --location $Location --parameters environmentName="$EnvironmentName" location="$Location" | ConvertFrom-Json
 
 Write-Output "OK"
 Write-Output ""
