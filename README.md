@@ -7,16 +7,26 @@ In this lab, participants will set up a Microsoft Sentinel workspace, and connec
 To participate in this lab, you will first need:
 
 * An Azure Account. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
+* A code editor, e.g. [Visual Studio Code](https://code.visualstudio.com/)
 * [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 * A git client, e.g. [Git for Windows](https://gitforwindows.org/)
-* A code editor, e.g. [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Setup
+
+### 1. Clone Repository
 
 Before beginning the lab, please clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.com/jcoliz/AzDeploy.Bicep) project handy with the necessary module templates.
 
 ```powershell
 git clone --recurse-submodules https://github.com/jcoliz/MsSentinel.HandsOnLab.1.git
+```
+
+### 2. Log into Azure from Azure Developer CLI
+
+From a Terminal Window, log into AZD. Alternately, this can be accomnplished using the [Azure Developer CLI VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azure-dev)
+
+```powershell
+azd auth login
 ```
 
 ## Deploy resources
