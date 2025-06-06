@@ -34,7 +34,7 @@ To check whether you have a git client installed, run the following command in a
 git --version
 ```
 
-If this fails, you can install a git client for your OS. For Windows, use [Git for Windows](https://gitforwindows.org/). After installing, close and re-open your terminal window, and try again the commands above.
+If this fails, you can install a git client for your OS. For Windows, use [Git for Windows](https://gitforwindows.org/). After installing, close and re-open your terminal window, and try again the command above.
 
 ## Execution policy
 
