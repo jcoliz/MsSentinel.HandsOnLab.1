@@ -12,6 +12,8 @@ To participate in this lab, you will first need:
 * Execution policy configured to run unsigned PowerShell scripts, see [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)
 * [Visual Studio Code](https://code.visualstudio.com/Download). Recommend the System Installer over User Installer for Windows users.
 
+Please refer to the [Tech Check Guide](./docs/Tech-Check.md) for step-by-step instructions to ensure you're ready to begin the lab.
+
 ## Setup
 
 Please complete these steps before beginning the lab.
