@@ -6,7 +6,7 @@ In this lab, participants will set up a Microsoft Sentinel workspace, and connec
 
 To participate in this lab, you will first need:
 
-* An Azure Account. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
+* An Azure account. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
 * [Azure CLI tool with Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli)
 * A git client, e.g. [Git for Windows](https://gitforwindows.org/)
 * Execution policy configured to run unsigned PowerShell scripts, see [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)

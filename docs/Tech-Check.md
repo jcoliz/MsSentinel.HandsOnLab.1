@@ -2,9 +2,9 @@
 
 Follow this guide to ensure you have everything set up ready to start the Hands-on-Lab.
 
-## Azure Account
+## Azure account
 
-You'll need an Azure Account, with the ability to create Resource Groups. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
+You'll need an Azure account, with the ability to create Resource Groups. Set up a [Free Azure Account](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account) to get started.
 
 One you have it set up, take a moment to confirm some details about your account
 
@@ -34,7 +34,7 @@ To check whether you have a git client installed, run the following command in a
 git --version
 ```
 
-If this fails, you can install a git client for your OS. For Windows, use Git for Windows. After installing, close and re-open your terminal window, and try again the commands above.
+If this fails, you can install a git client for your OS. For Windows, use [Git for Windows](https://gitforwindows.org/). After installing, close and re-open your terminal window, and try again the commands above.
 
 ## Execution policy
 
