@@ -1,6 +1,5 @@
 name: mssentinel-lab-1
 metadata:
-  template: mssentinel-lab-1@0.0.2
+  template: mssentinel-lab-1@0.0.3
 infra:
   provider: "bicep"
-  path: "."

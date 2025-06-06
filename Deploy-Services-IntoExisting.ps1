@@ -5,7 +5,7 @@ param(
 )
 
 Write-Output "Deploying environment $EnvironmentName"
-$result = az deployment group create --name "Deploy-$(Get-Random)" --resource-group $ResourceGroup --template-file ./resources.bicep | ConvertFrom-Json
+$result = az deployment group create --name "Deploy-$(Get-Random)" --resource-group $ResourceGroup --template-file ./infra/resources.bicep | ConvertFrom-Json
 
 Write-Output "OK"
 Write-Output ""
