@@ -1,8 +1,11 @@
-# Alternate instructions
+# Azure Developer CLI
 
-These alternate setup instructions use the Azure Developer CLI extension in VS Code, experimenting to see if we can simplify these steps.
+I've been experimenting with using the Azure Developer CLI tool (azd) integration with VS Code. The hypothesis is that doing this would make it quicker and easier to bring this up. This section describes the instructions needed for that path.
 
-However, I have found that azd isn't super reliable and stable, so I'm choosing to stay with the tried-and-true Azure CLI.
+Unfortunately, I have found it problematic for a few reasons:
+
+* Tear-down doesn't work. `azd down` fails every time.
+* Deployment doesn't work after removing the resource group. After `azd up`, if you then delete the resource group, next time you run `azd up`, it returns "nothing to do".
 
 ## Pre-requisites
 
