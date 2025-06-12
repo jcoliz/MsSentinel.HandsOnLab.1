@@ -273,6 +273,7 @@ Follow these instructions to make the needed correction:
 1. Replace the query with the text shown above. Click "Run Query" to see the results
 1. Click the "Done Editing" button *at the bottom of the pane* to finish editing the pane
 1. Click the "Done Editing" button in the top tool bar. Make sure you've *first* clicked "Done Editing" on the pane itself!!
+1. Click the Save icon to commit the workbook changes
 
 ### Parser
 
@@ -299,8 +300,7 @@ We will need to make the following change in the query for the `SentinelOne` par
 1. Update this line as shown in the diff above
 1. Click "Run" to ensure the query runs properly
 1. Click "Save" in the tool bar to the right of the tabs list. Then click "Save" again to overwrite the existing query.
-
-The workbook will now show up without warnings about invalid function syntax.
+1. Return to the saved workbook. Notice now the lack of warnings about invalid function syntax.
 
 ### Analytics rule
 
