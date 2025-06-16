@@ -5,7 +5,7 @@ In these cases, you can use the [Azure Cloud Shell](https://docs.microsoft.com/a
 
 For background, please first review this article: [Deploy ARM templates from Azure Cloud Shell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-cloud-shell?tabs=azure-cli)
 
-To deploy the template, use the following commands:
+To deploy the template, use the following commands in the Azure Cloud Shell:
 
 ```shell
 az group create --name rg-mssentinel-lab-1 --location "West  US"
