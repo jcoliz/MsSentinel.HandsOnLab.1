@@ -68,6 +68,8 @@ When finished, run:
 az group delete --name rg-mssentinel-lab-1
 ```
 
+Unable to use the Azure CLI tool on your machine? You can also deploy with the Azure Cloud Shell. Please refer to the [Cloud Shell instructions](./docs/Cloud-Shell.md)
+
 ## Review resoruces
 
 ### Check deployed resources
