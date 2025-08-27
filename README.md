@@ -22,7 +22,7 @@ Please complete these steps before beginning the lab.
 
 Clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.com/jcoliz/AzDeploy.Bicep) project handy with the necessary module templates.
 
-1. Launch VS Code
+1. Launch VS Code and open the directory you will be working from (you will not see the Git clone option referenced below unless you first open a directory)
 1. Hit [F1], and then type "git clone"
 1. Pick the option "Git clone (Recursive)". Be sure to get the "recursive" choice.
 1. Enter "https://github.com/jcoliz/MsSentinel.HandsOnLab.1"
@@ -31,10 +31,11 @@ Clone this repo with submodules so you have the [AzDeploy.Bicep](https://github.
 
 ### 2. Log into Azure
 
-In a terminal window, ensure you are logged into Azure
+In a terminal window, ensure you are logged into Azure (you may need to append --use-device-coded)
 
 ```dotnetcli
 az login
+
 ```
 
 Then verify that the subscription you're logged into is where you want to deploy. Make adjustments as needed.
@@ -109,7 +110,7 @@ Always ensure that health monitoring is enabled on any Sentinel workspace before
 
 Let's visit the swagger UI page for our synthetic endpoints. Note the output of the `Deploy-Services` script above, which gave you a URL ending in `.azurecontainerapps.io/`. Paste that URL into your browser address bar, followed by `swagger`. For example: `https://c-web-redacted.westus.azurecontainerapps.io/swagger`.
 
-From here, take some time to familiazize yourself with the "SyntheticS1" group of endpoints. These endpoints will be used when we deploy the CCP connector.
+From here, take some time to familiarize yourself with the "SyntheticS1" group of endpoints. These endpoints will be used when we deploy the CCP connector.
 
 ## Install and connect a connector
 
